@@ -24,11 +24,19 @@ function calcBtnClicked(){
         else if (billItem === "sms"){
             billTotal += 0.75;
         }
+
         if (billTotal>=30){
-            totalBill.style.color= "red";
-           } else if(billTotal>=20){
-            totalBill.style.color= "orange";
-            }
+        document.querySelector(".billTotal").classList.add("danger");
+        }
+        else if (billTotal < 30) {
+            document.querySelector(".billTotal").classList.remove("warning");
+        }
+        if(billTotal>=20){
+        document.querySelector(".billTotal").classList.add("warning");
+        }
+        if (billTotal < 20) {
+            document.querySelector(".billTotal").classList.remove("danger");
+        }
     }
     var roundedBillTotal = billTotal.toFixed(2);
     totalBill.innerHTML = roundedBillTotal;
