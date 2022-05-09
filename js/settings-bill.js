@@ -29,12 +29,12 @@ function addCountTotal() {
     if (checkedRadioBtn) {
         var billItemTypeWithSettings = checkedRadioBtn.value;
         if (billItemTypeWithSettings === "call") {
-            if (callTotal < criticalLevel) {
+            if (totalCost < criticalLevel) {
                 callTotal += callCost;
             }
         }
         else if (billItemTypeWithSettings === "sms") {
-            if (smsTotal < criticalLevel) {
+            if (totalCost < criticalLevel) {
                 smsTotal += smsCost;
             }
         }
