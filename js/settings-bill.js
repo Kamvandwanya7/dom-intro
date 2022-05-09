@@ -60,7 +60,6 @@ function addCountTotal() {
     }
 }
 settingsBtn.addEventListener('click', function () {
-    //  alert("go")
     callCost = Number(callCostSetting.value);
     smsCost = Number(smsCostSetting.value);
     warningLevel = Number(warningLevelSetting.value);
