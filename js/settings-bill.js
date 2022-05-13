@@ -1,81 +1,91 @@
-var settingsBill = document.querySelector('.billItemTypeWithSettings')
-//var addButtn= document.querySelector('.addBtn')
-var settingsBtn = document.querySelector('.updateSettings')
-// var stopCount= document.querySelector("addBtn").disabled
+function BillWithSettings() {
+  var theCallCost = 0;
+  var theSmsCost = 0;
+  var theWarningLevel = 0;
+  var theCriticalLevel = 0;
 
-//var callTotalThree = document.querySelector(".callTotalSettings")
-let callCostSetting = document.querySelector(".callCostSetting")
-let smsCostSetting = document.querySelector(".smsCostSetting")
-let warningLevelSetting = document.querySelector(".warningLevelSetting")
-let criticalLevelSetting = document.querySelector(".criticalLevelSetting")
+  var callCostTotal = 0;
+  var smsCostTotal = 0;
 
-//var smsTotalThree= document.querySelector(".smsTotalSettings")
+  function setCallCost(callCost) {
+    theCallCost = callCost;
+  }
+  function getCallCost() {
+    return theCallCost;
+  }
 
-//var totalThree= document.querySelector(".totalSettings")
-var callCost = 0;
-var smsCost = 0;
-var warningLevel = 0;
-var criticalLevel = 0;
+  function setSmsCost(smsCost) {
+    theSmsCost = smsCost;
+  }
+  function getSmsCost() {
+    return theSmsCost;
+  }
 
-var callTotal = 0;
-var smsTotal = 0;
-var totalCost = 0;
+  function setWarningLevel(warningLevel) {
+    theWarningLevel = warningLevel;
+  }
+  function getWarningLevel() {
+    return theWarningLevel;
+  }
 
-
-
-function addCountTotal() {
-    //alert("gh")
-    var checkedRadioBtn = document.querySelector("input[name='billItemTypeWithSettings']:checked");
-    if (checkedRadioBtn) {
-        var billItemTypeWithSettings = checkedRadioBtn.value;
-        if (billItemTypeWithSettings === "call") {
-            if (totalCost < criticalLevel) {
-                callTotal += callCost;
-            }
-        }
-        else if (billItemTypeWithSettings === "sms") {
-            if (totalCost < criticalLevel) {
-                smsTotal += smsCost;
-            }
-        }
-        
-        document.querySelector(".callTotalSettings").innerHTML = callTotal.toFixed(2);
-        document.querySelector(".smsTotalSettings").innerHTML = smsTotal.toFixed(2);
-        totalCost = callTotal + smsTotal;
-        document.querySelector(".totalSettings").innerHTML = totalCost.toFixed(2);
-        
-        if (totalCost >= criticalLevel) {
-            document.querySelector(".totalSettings").classList.add("danger");
-        }
-        else if (totalCost < criticalLevel) {
-            document.querySelector(".totalSettings").classList.remove("warning");
-        }
-        if (totalCost >= warningLevel) {
-            document.querySelector(".totalSettings").classList.add("warning");
-        }
-        if (totalCost < warningLevel) {
-            document.querySelector(".totalSettings").classList.remove("danger");
-        }
-        
+  function setCriticalLevel(criticalLevel) {
+    theCriticalLevel = criticalLevel;
+  }
+  function getCriticalLevel() {
+    return theCriticalLevel;
+  }
+  function makeCall() {
+    if (!hasReachedCriticalLevel()){
+      callCostTotal += theCallCost;
     }
+  }
+  function getTotalCost() {
+    return callCostTotal + smsCostTotal;
+  }
+  function getTotalCallCost() {
+    return callCostTotal;
+  }
+
+  function getTotalSmsCost() {
+    return smsCostTotal;
+  }
+
+  function sendSms() {
+    if(!hasReachedCriticalLevel()){
+      smsCostTotal += theSmsCost
+    }
+  }
+
+  function hasReachedCriticalLevel(){
+      return getTotalCost() >= getCriticalLevel()
+  }
+
+  function totalClassName() {
+    if (hasReachedCriticalLevel()) {
+      return "danger"
+    }
+    if (getTotalCost() >= getWarningLevel()) {
+      return "warning"
+    }
+
+  }
+
+  return {
+    setCallCost,
+    getCallCost,
+    setSmsCost,
+    getSmsCost,
+    setWarningLevel,
+    getWarningLevel,
+    setCriticalLevel,
+    getCriticalLevel,
+    makeCall,
+    getTotalCost,
+    getTotalCallCost,
+    getTotalSmsCost,
+    sendSms,
+    totalClassName,
+    hasReachedCriticalLevel,
+  }
 }
-settingsBtn.addEventListener('click', function () {
-    callCost = Number(callCostSetting.value);
-    smsCost = Number(smsCostSetting.value);
-    warningLevel = Number(warningLevelSetting.value);
-    criticalLevel = Number(criticalLevelSetting.value);
 
-    if (totalCost >= criticalLevel) {
-        document.querySelector(".totalSettings").classList.add("danger");
-    }
-    else if (totalCost < criticalLevel) {
-        document.querySelector(".totalSettings").classList.remove("warning");
-    }
-    if (totalCost >= warningLevel) {
-        document.querySelector(".totalSettings").classList.add("warning");
-    }
-    if (totalCost < warningLevel) {
-        document.querySelector(".totalSettings").classList.remove("danger");
-    }
-});
-document.querySelector('.addBtn').addEventListener('click', addCountTotal)
